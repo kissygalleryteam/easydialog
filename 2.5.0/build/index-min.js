@@ -1,0 +1,1 @@
+define('kg/easydialog/2.5.0/index',["./alert","./confirm","./prompt"],function(require, exports, module) {var r=require("./alert"),e=require("./confirm"),o=require("./prompt");module.exports={alert:r,confirm:e,prompt:o};});

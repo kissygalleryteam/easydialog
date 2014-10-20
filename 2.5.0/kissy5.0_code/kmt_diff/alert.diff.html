@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>diff</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    html, body {
+        background: #FFF;
+        font: 14px;
+    }
+    body {
+        padding-top: 1.8em;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    html, body, table, tbody, tr, td {
+        height: 100%
+    }
+    a{
+        color:#4183c4;
+    }
+    .file-name{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .file-name p{
+        line-height:28px;
+    }
+    del {
+        text-decoration: none;
+        color: #b30000;
+        display:block;
+    }
+    ins {
+        color: #A6E22E;
+        text-decoration: none;
+        display:block;
+    }
+
+
+    .code{
+        background:#272822;
+        color:#DDD;
+        padding:10px;
+        margin-bottom: 50px;
+    }
+
+    .content{
+        width:1000px;
+        margin:0 auto;
+    }
+
+</style>
+<div class="content">
+    <div class="file-name">
+        <p>src： <a href="file:///Users/sirzxj/Documents/kg/easydialog/src/alert.js">/Users/sirzxj/Documents/kg/easydialog/src/alert.js</a></p>
+        <p>build： <a href="file:///Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/alert.js">/Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/alert.js</a></p>
+    </div>
+    <div class="code">
+        <pre>/**
+ * @fileoverview 基于Overlay.Dialog dd封装了alert
+ * @author bofang.zxj<bofang.zxj@taobao.com>
+ * @module easydialog
+ **/
+<del>KISSY.add(function (S, Base, Node, Common) {
+	var $ = Node.all;
+	var TPL_BODY = '<div class="ks-easy-dialog ks-easy-dialog-ok">' + '<div class="ks-easy-dialog-head">{title}</div>' + '<div class="ks-easy-dialog-body">' + '<div class="ks-easy-dialog-title">{content}</div>' + '<p class="ks-easy-dialog-btn-content">' + '<button class="ks-easy-dialog-yes J_KsDialogOkBtn J_KsEasyDialogBtn">\u786E\u5B9A</button></p>' + '</div>';
+	'</div>';
+	function Alert() {
+		Alert.superclass.constructor.call(this);
+	}
+	;
+</del><ins>var Util = require('util');
+var Base = require('base');
+var Node = require('node');
+var Common = require('./common');
+var $ = Node.all;
+var TPL_BODY = '<div class="ks-easy-dialog ks-easy-dialog-ok">' + '<div class="ks-easy-dialog-head">{title}</div>' + '<div class="ks-easy-dialog-body">' + '<div class="ks-easy-dialog-title">{content}</div>' + '<p class="ks-easy-dialog-btn-content">' + '<button class="ks-easy-dialog-yes J_KsDialogOkBtn J_KsEasyDialogBtn">\u786E\u5B9A</button></p>' + '</div>';
+'</div>';
+function Alert() {
+	Alert.superclass.constructor.call(this);
+}
+;
+/**
+* 绑定事件
+* @param  {Object}   oDialog  dialog名
+* @param  {Function} callback callback 函数
+*/
+function bindEvent(oDialog, callback) {
+	oDialog.on('afterRenderUI', function () {
+		var elContent = $(oDialog.get('el'));
+		var elBtn = elContent.all('.J_KsEasyDialogBtn');
+		elBtn.on('click', function (e) {
+			oDialog.destroy();
+			callback && callback({ result: true });
+		});
+	});
+}
+Util.extend(Alert, Base, {
+</ins>	/**
+<del>	* 绑定事件
+	* @param  {Object}   oDialog  dialog名
+	* @param  {Function} callback callback 函数
+	*/
+	function bindEvent(oDialog, callback) {
+		oDialog.on('afterRenderUI', function () {
+			var elContent = $(oDialog.get('el'));
+			var elBtn = elContent.all('.J_KsEasyDialogBtn');
+			elBtn.on('click', function (e) {
+				oDialog.destroy();
+				callback && callback({ result: true });
+			});
+</del><ins>	 * 模拟window.prompt
+	 * @param  {String}   message  提示的信息
+	 * @param  {Object}   config   配置信息
+	 * @param  {Function} callback 回调函数
+	 * @return {Obejct}            dialog
+	 */
+	alert: function (message, config, callback) {
+		var oParseData = Common.parseData(config, callback);
+		var oConfig = oParseData.config;
+		var oEasyDialog = Common.getDialog(oConfig);
+		var funcCallback = oParseData.callback;
+		// 设置内容
+		Common.setContent(oEasyDialog, TPL_BODY, {
+			title: oConfig.title,
+			content: message
+</ins>		});
+<ins>		// 事件绑定
+		bindEvent(oEasyDialog, funcCallback);
+		oEasyDialog.show();
+		// 拖动配置
+		oConfig.isNeedDrag && Common.setDragAble(oEasyDialog);
+		return oEasyDialog;
+</ins>	}
+<del>	S.extend(Alert, Base, {
+		/**
+		 * 模拟window.prompt
+		 * @param  {String}   message  提示的信息
+		 * @param  {Object}   config   配置信息
+		 * @param  {Function} callback 回调函数
+		 * @return {Obejct}            dialog
+		 */
+		alert: function (message, config, callback) {
+			var oParseData = Common.parseData(config, callback);
+			var oConfig = oParseData.config;
+			var oEasyDialog = Common.getDialog(oConfig);
+			var funcCallback = oParseData.callback;
+			// 设置内容
+			Common.setContent(oEasyDialog, TPL_BODY, {
+				title: oConfig.title,
+				content: message
+			});
+			// 事件绑定
+			bindEvent(oEasyDialog, funcCallback);
+			oEasyDialog.show();
+			// 拖动配置
+			oConfig.isNeedDrag && Common.setDragAble(oEasyDialog);
+			return oEasyDialog;
+		}
+	});
+	return new Alert().alert;
+}, {
+	requires: [
+		'base',
+		'node',
+		'./common'
+	]
+});</del><ins>});
+module.exports = new Alert().alert;</ins></pre>
+    </div>
+</div>
+</body>
+</html>

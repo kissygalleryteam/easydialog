@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>diff</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    html, body {
+        background: #FFF;
+        font: 14px;
+    }
+    body {
+        padding-top: 1.8em;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    html, body, table, tbody, tr, td {
+        height: 100%
+    }
+    a{
+        color:#4183c4;
+    }
+    .file-name{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .file-name p{
+        line-height:28px;
+    }
+    del {
+        text-decoration: none;
+        color: #b30000;
+        display:block;
+    }
+    ins {
+        color: #A6E22E;
+        text-decoration: none;
+        display:block;
+    }
+
+
+    .code{
+        background:#272822;
+        color:#DDD;
+        padding:10px;
+        margin-bottom: 50px;
+    }
+
+    .content{
+        width:1000px;
+        margin:0 auto;
+    }
+
+</style>
+<div class="content">
+    <div class="file-name">
+        <p>src： <a href="file:///Users/sirzxj/Documents/kg/easydialog/src/common.js">/Users/sirzxj/Documents/kg/easydialog/src/common.js</a></p>
+        <p>build： <a href="file:///Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/common.js">/Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/common.js</a></p>
+    </div>
+    <div class="code">
+        <pre>/**
+ * @fileoverview alert,confirm,prompt通用的模块
+ * @author bofang.zxj<bofang.zxj@taobao.com>
+ * @module easydialog
+ **/
+<del>KISSY.add(function (S, Node, Overlay, DD) {
+	var re = {};
+	var $ = Node.all;
+	var DOMAIN = document.domain;
+</del><ins>var Util = require('util');
+var Node = require('node');
+var Overlay = require('overlay');
+var DD = require('dd');
+var re = {};
+var $ = Node.all;
+var DOMAIN = document.domain;
+/**
+* Dialog 默认参数配置
+* @type {Object}
+*/
+var oDefaultConfig = {
+	title: DOMAIN + ' \u7F51\u9875\u63D0\u793A',
+	isNeedDrag: true,
+	theme: 'gallery/easydialog/1.1/theme/theme-tb.css',
+	width: 350,
+	height: 110,
+	zIndex: 9999,
+	closable: true,
+	prefixCls: 'ks-easydialog-',
+	closeAction: 'destroy',
+	mask: true,
+	effect: {},
+	align: {
+		points: [
+			'cc',
+			'cc'
+		]
+	}
+};
+Util.mix(re, {
+</ins>	/**
+<del>	* Dialog 默认参数配置
+	* @type {Object}
+	*/
+	var oDefaultConfig = {
+		title: DOMAIN + ' \u7F51\u9875\u63D0\u793A',
+		isNeedDrag: true,
+		theme: 'gallery/easydialog/1.1/theme/theme-tb.css',
+		width: 350,
+		height: 110,
+		zIndex: 9999,
+		closable: true,
+		prefixCls: 'ks-easydialog-',
+		closeAction: 'destroy',
+		mask: true,
+		effect: {},
+		align: {
+			points: [
+				'cc',
+				'cc'
+			]
+</del><ins>	 * 处理传入的参数
+	 * @param  {Object}   config   配置参数
+	 * @param  {Function} callback 函数名
+	 * @return {Obejct}            {config:Object,callback:Function}
+	 */
+	parseData: function (config, callback) {
+		var reConfig;
+		var reCallback;
+		if (Util.isPlainObject(config)) {
+			reConfig = Util.mix(oDefaultConfig, config);
+		} else if (Util.isFunction(config)) {
+			reConfig = oDefaultConfig;
+			callback = config;
+		} else {
+			// S.log('easydialog params are error !');
+			reCallback = callback;
+			reConfig = oDefaultConfig;
+</ins>		}
+<del>	};
+	S.mix(re, {
+		/**
+		 * 处理传入的参数
+		 * @param  {Object}   config   配置参数
+		 * @param  {Function} callback 函数名
+		 * @return {Obejct}            {config:Object,callback:Function}
+		 */
+		parseData: function (config, callback) {
+			var reConfig;
+			var reCallback;
+			if (S.isPlainObject(config)) {
+				reConfig = S.mix(oDefaultConfig, config);
+			} else if (S.isFunction(config)) {
+				reConfig = oDefaultConfig;
+				callback = config;
+			} else {
+				// S.log('easydialog params are error !');
+				reCallback = callback;
+				reConfig = oDefaultConfig;
+			}
+			if (S.isFunction(callback)) {
+				reCallback = callback;
+			}
+			// 加载css
+			this.loadCss(reConfig.theme);
+			return {
+				config: reConfig,
+				callback: reCallback
+			};
+		},
+		/**
+		 * 获取Dialog
+		 * @param  {Object} config 配置信息
+		 * @return {Object}        Overlay
+		 */
+		getDialog: function (config) {
+			return new Overlay.Dialog(config);
+		},
+		/**
+		 * 设置dialog可以拖动
+		 * @param {Object} oDialog dialog对象
+		 * @return {Object}
+		 */
+		setDragAble: function (oDialog) {
+			var elContent = $(oDialog.get('el'));
+			var elTxt = elContent.one('.J_KsEasyDialogPromptTxt');
+			var self = this;
+			var oDD;
+			oDD = self._initDD(elContent);
+			//输入框focus的时候不需要拖动
+			if (elTxt) {
+				elContent.on('mousedown', function () {
+					if (!oDD) {
+						oDD = self._initDD(elContent);
+					}	// !oDD && 					
+				});
+				elTxt.on('mousedown', function (e) {
+					oDD && oDD.destroy();
+					oDD = null;
+				});
+			}
+		},
+		_initDD: function (el) {
+			return new DD.Draggable({
+				node: el,
+				cursor: 'move',
+				move: true
+</del><ins>		if (Util.isFunction(callback)) {
+			reCallback = callback;
+		}
+		// 加载css
+		this.loadCss(reConfig.theme);
+		return {
+			config: reConfig,
+			callback: reCallback
+		};
+	},
+	/**
+	 * 获取Dialog
+	 * @param  {Object} config 配置信息
+	 * @return {Object}        Overlay
+	 */
+	getDialog: function (config) {
+		return new Overlay.Dialog(config);
+	},
+	/**
+	 * 设置dialog可以拖动
+	 * @param {Object} oDialog dialog对象
+	 * @return {Object}
+	 */
+	setDragAble: function (oDialog) {
+		var elContent = $(oDialog.get('el'));
+		var elTxt = elContent.one('.J_KsEasyDialogPromptTxt');
+		var self = this;
+		var oDD;
+		oDD = self._initDD(elContent);
+		//输入框focus的时候不需要拖动
+		if (elTxt) {
+			elContent.on('mousedown', function () {
+				if (!oDD) {
+					oDD = self._initDD(elContent);
+				}	// !oDD && 					
+</ins>			});
+<del>		},
+		/**
+		 * 加载css
+		 * @param  {String} cssUrl css路劲
+		 * @return {Object}        this
+		 */
+		loadCss: function (cssUrl) {
+			if (cssUrl && S.isString(cssUrl)) {
+				S.use(cssUrl);
+			}
+			return this;
+		},
+		/**
+		 * 设置dialog内容
+		 * @param {Object} oDialog dialog对象
+		 * @param {String} body 的html内容
+		 * @param {Object} oContent 内容对象
+		 *  @param {String} head dialog的title
+		 *  @param {String} body dialog的body内容
+		 * @return {Object} this
+		 */
+		setContent: function (oDialog, strHtml, oContent) {
+			// alert(strHtml)	
+			oDialog.set('bodyContent', S.substitute(strHtml, oContent));
+			return this;
+</del><ins>			elTxt.on('mousedown', function (e) {
+				oDD && oDD.destroy();
+				oDD = null;
+			});
+</ins>		}
+<del>	});
+	return re;
+}, {
+	requires: [
+		'node',
+		'overlay',
+		'dd'
+	]
+});</del><ins>	},
+	_initDD: function (el) {
+		return new DD.Draggable({
+			node: el,
+			cursor: 'move',
+			move: true
+		});
+	},
+	/**
+	 * 加载css
+	 * @param  {String} cssUrl css路劲
+	 * @return {Object}        this
+	 */
+	loadCss: function (cssUrl) {
+		if (cssUrl && Util.isString(cssUrl)) {
+			require(cssUrl);
+		}
+		return this;
+	},
+	/**
+	 * 设置dialog内容
+	 * @param {Object} oDialog dialog对象
+	 * @param {String} body 的html内容
+	 * @param {Object} oContent 内容对象
+	 *  @param {String} head dialog的title
+	 *  @param {String} body dialog的body内容
+	 * @return {Object} this
+	 */
+	setContent: function (oDialog, strHtml, oContent) {
+		// alert(strHtml)	
+		oDialog.set('bodyContent', Util.substitute(strHtml, oContent));
+		return this;
+	}
+});
+module.exports = re;</ins></pre>
+    </div>
+</div>
+</body>
+</html>

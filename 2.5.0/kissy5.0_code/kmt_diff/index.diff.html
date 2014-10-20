@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>diff</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    html, body {
+        background: #FFF;
+        font: 14px;
+    }
+    body {
+        padding-top: 1.8em;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    html, body, table, tbody, tr, td {
+        height: 100%
+    }
+    a{
+        color:#4183c4;
+    }
+    .file-name{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .file-name p{
+        line-height:28px;
+    }
+    del {
+        text-decoration: none;
+        color: #b30000;
+        display:block;
+    }
+    ins {
+        color: #A6E22E;
+        text-decoration: none;
+        display:block;
+    }
+
+
+    .code{
+        background:#272822;
+        color:#DDD;
+        padding:10px;
+        margin-bottom: 50px;
+    }
+
+    .content{
+        width:1000px;
+        margin:0 auto;
+    }
+
+</style>
+<div class="content">
+    <div class="file-name">
+        <p>src： <a href="file:///Users/sirzxj/Documents/kg/easydialog/src/index.js">/Users/sirzxj/Documents/kg/easydialog/src/index.js</a></p>
+        <p>build： <a href="file:///Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/index.js">/Users/sirzxj/Documents/kg/easydialog/kissy5.0_code/index.js</a></p>
+    </div>
+    <div class="code">
+        <pre>/**
+ * @fileoverview 基于Overlay.Dialog dd封装了alert,confirm,prompt，使用dialog会很简单
+ * @author bofang.zxj<bofang.zxj@taobao.com>
+ * @module easydialog
+ **/
+<del>KISSY.add(function (S, Alert, Confirm, Prompt) {
+	return {
+		alert: Alert,
+		confirm: Confirm,
+		prompt: Prompt
+	};
+}, {
+	requires: [
+		'./alert',
+		'./confirm',
+		'./prompt'
+	]
+});</del><ins>var Alert = require('./alert');
+var Confirm = require('./confirm');
+var Prompt = require('./prompt');
+module.exports = {
+	alert: Alert,
+	confirm: Confirm,
+	prompt: Prompt
+};</ins></pre>
+    </div>
+</div>
+</body>
+</html>
